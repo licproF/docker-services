@@ -118,13 +118,14 @@ def bwh_info():
         draw_bar(LiveServiceInfo.get("data_counter", 0) * monthly_data_multiplier, LiveServiceInfo.get("plan_monthly_data", 0), 230)
 
         img.save(image,'PNG')
+        return True
     except:
         return
 
 @app.on_message(filters.me & ~filters.forwarded & filters.command('bwh', prefixes='/'))
 async def hello(client, message):
     await message.edit_text("搬瓦工 vps 信息获取中...")
-    if os.path.exists(image):
+    if bwh_info():
         await message.delete()
         await client.send_photo(message.chat.id, image)
     else:
